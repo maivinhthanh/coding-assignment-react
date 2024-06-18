@@ -3,7 +3,11 @@ import axios from 'axios';
 import { apiStrings } from '../services';
 
 const useCompleteTicket = () => {
-  const { mutate: completeTicket, isSuccess } = useMutation<any, any, any>({
+  const {
+    mutate: completeTicket,
+    isSuccess,
+    isPending,
+  } = useMutation<any, any, any>({
     mutationFn: async (variables) => {
       try {
         const response = await axios.put(
@@ -20,6 +24,7 @@ const useCompleteTicket = () => {
   return {
     completeTicket,
     isSuccess,
+    isPending,
   };
 };
 

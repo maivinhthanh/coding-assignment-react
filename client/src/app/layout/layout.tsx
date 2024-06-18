@@ -1,7 +1,7 @@
 import { LayoutProps } from './layout.d';
 import { Breadcrumb } from 'antd';
 import styles from './layout.module.css';
-import { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 
 const Layout = ({ pageTitle, breadCrumb, children }: LayoutProps) => {
   const isEmptyBreadCrumb = useMemo(() => {
@@ -19,4 +19,4 @@ const Layout = ({ pageTitle, breadCrumb, children }: LayoutProps) => {
   );
 };
 
-export default Layout;
+export default memo(Layout);

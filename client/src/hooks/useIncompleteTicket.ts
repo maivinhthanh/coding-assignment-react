@@ -3,7 +3,7 @@ import axios from 'axios';
 import { apiStrings } from '../services';
 
 const useIncompleteTicket = () => {
-  const { mutate: incompleteTicket, isSuccess } = useMutation<any, any, any>({
+  const { mutate: incompleteTicket, isPending } = useMutation<any, any, any>({
     mutationFn: async (variables) => {
       try {
         const response = await axios.delete(
@@ -19,7 +19,7 @@ const useIncompleteTicket = () => {
 
   return {
     incompleteTicket,
-    isSuccess,
+    isPending,
   };
 };
 

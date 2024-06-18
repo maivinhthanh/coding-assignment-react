@@ -12,4 +12,5 @@ export default {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   coverageDirectory: '../coverage/apps/react-client',
   setupFilesAfterEnv: ['<rootDir>/test-setup.ts'],
+  testEnvironment: 'jsdom',
 };

@@ -20,6 +20,8 @@ export interface OptionType {
 }
 
 export function TicketDetail() {
+  console.log('TicketDetail');
+
   const { id } = useParams();
   const { data: ticket, isLoading, refetch } = useTicketDetailQuery(id);
   const { data: users } = useUsersQuery();

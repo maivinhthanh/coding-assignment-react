@@ -25,7 +25,7 @@
           "extractLicenses": true,
           "inspect": false,
           "fileReplacements": []
-        }
+        } 
       }
     },
     "serve": {

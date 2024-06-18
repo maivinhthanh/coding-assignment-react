@@ -1,46 +1,15 @@
 import { Ticket, User } from '@acme/shared-models';
-import { Layout } from 'client/src/app/layout';
 import { NavLink } from 'react-router-dom';
 import { Table, Tag } from 'antd';
 import { ColumnsType } from 'antd/es/table';
+import { useTicketsQuery, useUsersQuery } from 'client/src/hooks';
 import { useMemo } from 'react';
-import {
-  useCompleteTicket,
-  useIncompleteTicket,
-  useTicketsQuery,
-  useUsersQuery,
-} from 'client/src/hooks';
 
 export interface TicketsProps {}
 
 export function Tickets() {
-  const { data: tickets, isLoading, refetch } = useTicketsQuery();
+  const { data: tickets, isLoading } = useTicketsQuery();
   const { data: users } = useUsersQuery();
-  const { completeTicket } = useCompleteTicket();
-  const { incompleteTicket } = useIncompleteTicket();
-
-  const handleCompleteTicket = (id: number) => {
-    completeTicket(
-      { id },
-      {
-        onSuccess: () => {
-          refetch();
-        },
-        onError: () => {},
-      }
-    );
-  };
-
-  const handleIncompleteTicket = (id: number) => {
-    incompleteTicket(
-      { id },
-      {
-        onSuccess: () => {
-          refetch();
-        },
-      }
-    );
-  };
 
   const columns: ColumnsType<Ticket> = useMemo(() => {
     return [
@@ -68,22 +37,12 @@ export function Tickets() {
         title: 'Completed',
         dataIndex: 'completed',
         key: 'completed',
-        render: (value, record) => (
+        render: (value) => (
           <p>
             {value ? (
-              <Tag
-                color="green"
-                onClick={() => handleIncompleteTicket(record.id)}
-              >
-                Completed
-              </Tag>
+              <Tag color="green">Completed</Tag>
             ) : (
-              <Tag
-                color="red"
-                onClick={() => handleCompleteTicket(record.id)}
-              >
-                Pending
-              </Tag>
+              <Tag color="red">Pending</Tag>
             )}
           </p>
         ),
@@ -92,14 +51,13 @@ export function Tickets() {
   }, [users]);
 
   return (
-    <Layout pageTitle={'Tickets'}>
-      <Table
-        columns={columns}
-        dataSource={tickets}
-        loading={isLoading}
-        pagination={false}
-      />
-    </Layout>
+    <Table
+      columns={columns}
+      dataSource={tickets}
+      loading={isLoading}
+      pagination={false}
+      rowKey="id"
+    />
   );
 }
 

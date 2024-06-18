@@ -1,9 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { apiStrings } from '../services';
+import { Ticket } from '@acme/shared-models';
 
 const useTicketsQuery = () => {
-  const { data, isLoading, refetch } = useQuery({
+  const { data, isLoading, refetch } = useQuery<any, any, Ticket[]>({
     queryKey: ['tickets'],
     queryFn: async () => {
       try {
