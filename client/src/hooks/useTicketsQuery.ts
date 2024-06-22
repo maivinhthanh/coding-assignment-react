@@ -4,12 +4,11 @@ import { apiStrings } from '../services';
 import { Ticket } from '@acme/shared-models';
 
 const useTicketsQuery = () => {
-  const { data, isLoading, refetch } = useQuery<any, any, Ticket[]>({
+  const { data, isLoading, refetch, error } = useQuery<any, any, Ticket[]>({
     queryKey: ['tickets'],
     queryFn: async () => {
       try {
         const response = await axios.get(apiStrings.tickets);
-
         return response.data;
       } catch (error) {
         throw error;
@@ -21,6 +20,7 @@ const useTicketsQuery = () => {
     data,
     isLoading,
     refetch,
+    error,
   };
 };
 

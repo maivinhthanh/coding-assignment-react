@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Tickets from './tickets';
@@ -60,28 +60,36 @@ describe('Tickets Component', () => {
     mockUseUsersQuery.mockReset();
   });
 
-  // test('renders a loading state', () => {
-  //   // Mock loading state
-  //   mockUseTicketsQuery.mockReturnValue({
-  //     data: null,
-  //     isLoading: true,
-  //     refetch: jest.fn(),
-  //   });
-  //   mockUseUsersQuery.mockReturnValue({
-  //     data: null,
-  //     isLoading: true,
-  //   });
+  test('renders a loading state',async () => {
+    // Mock loading state
+    mockUseTicketsQuery.mockReturnValue({
+      data: null,
+      isLoading: true,
+      refetch: jest.fn(),
+    });
+    mockUseUsersQuery.mockReturnValue({
+      data: null,
+      isLoading: true,
+    });
 
-  //   render(
-  //     <QueryClientProvider client={queryClient}>
-  //       <Router>
-  //         <Tickets />
-  //       </Router>
-  //     </QueryClientProvider>
-  //   );
+    render(
+      <QueryClientProvider client={queryClient}>
+        <Router>
+          <Tickets />
+        </Router>
+      </QueryClientProvider>
+    );
 
-  //   expect(screen.getByText(/loading/i)).toBeInTheDocument();
-  // });
+    // Check for loading state  
+    const loadingIndicator = screen.getByTestId('loading-indicator'); // Ant Design Spin component uses role="alert"
+    expect(loadingIndicator).toBeInTheDocument();
+
+    // Wait for loading to complete and data to be displayed
+    await waitFor(() => {
+      const rows = screen.getAllByRole('row');
+      expect(rows).toHaveLength(2); // 2 data rows + 1 header row
+    });
+  });
 
   test('renders tickets table with data', () => {
     // Mock data state

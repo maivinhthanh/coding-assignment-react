@@ -1,6 +1,6 @@
 import { Ticket, User } from '@acme/shared-models';
 import { NavLink } from 'react-router-dom';
-import { Table, Tag } from 'antd';
+import { Spin, Table, Tag } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { useTicketsQuery, useUsersQuery } from 'client/src/hooks';
 import { useMemo } from 'react';
@@ -54,7 +54,7 @@ export function Tickets() {
     <Table
       columns={columns}
       dataSource={tickets}
-      loading={isLoading}
+      loading={{ indicator: <Spin data-testid="loading-indicator" />, spinning: isLoading }}
       pagination={false}
       rowKey="id"
     />
