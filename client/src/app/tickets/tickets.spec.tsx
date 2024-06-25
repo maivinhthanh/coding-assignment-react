@@ -24,8 +24,8 @@ const mockTickets = [
   {
     id: 2,
     description: 'Move the desk to the new location',
-    assigneeId: 1,
-    completed: false,
+    assigneeId: 4,
+    completed: true,
   },
 ];
 
@@ -87,7 +87,7 @@ describe('Tickets Component', () => {
     // Wait for loading to complete and data to be displayed
     await waitFor(() => {
       const rows = screen.getAllByRole('row');
-      expect(rows).toHaveLength(2); // 2 data rows + 1 header row
+      expect(rows).toHaveLength(mockTickets.length); // 2 data rows + 1 header row
     });
   });
 
@@ -113,6 +113,10 @@ describe('Tickets Component', () => {
 
     // Check that the table rows are rendered correctly
     expect(screen.getByText('Install a monitor arm')).toBeInTheDocument();
+    expect(screen.getByText('Alice')).toBeInTheDocument();
+    expect(screen.getByText('Pending')).toBeInTheDocument();
+
     expect(screen.getByText('Move the desk to the new location')).toBeInTheDocument();
+    expect(screen.getByText('Daisy')).toBeInTheDocument();
   });
 });

@@ -11,7 +11,7 @@ import {
 } from 'client/src/hooks';
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import styles from './ticket.module.css';
+import AssignUserModal from '../ticketModal/assignUserModal';
 
 export interface TicketsProps {}
 export interface OptionType {
@@ -28,21 +28,9 @@ export function TicketDetail() {
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const [selectedUser, setSelectedUser] = useState<number | null>(
-    ticket?.assigneeId
-  );
-  const { assignUser } = useAssign();
   const { unassignUser } = useUnassign();
   const { completeTicket } = useCompleteTicket();
   const { incompleteTicket } = useIncompleteTicket();
-
-  const userOptions = useMemo(
-    () =>
-      users?.map(
-        (e: User) => ({ label: e.name, value: e.id } as unknown as OptionType)
-      ),
-    [users]
-  );
 
   const breadCrumb = [
     {
@@ -109,29 +97,6 @@ export function TicketDetail() {
     );
   };
 
-  const handleAssign = () => {
-    setLoading(true);
-    assignUser(
-      { id, userId: selectedUser },
-      {
-        onSuccess: () => {
-          refetch();
-          setSelectedUser(null);
-          setOpen(false);
-          setLoading(false);
-        },
-        onError: () => {
-          setOpen(false);
-          setLoading(false);
-        },
-      }
-    );
-  };
-
-  useEffect(() => {
-    setSelectedUser(ticket?.assigneeId);
-  }, [ticket]);
-
   return (
     <Layout pageTitle={'Ticket Detail'} breadCrumb={breadCrumb}>
       <Card
@@ -168,25 +133,7 @@ export function TicketDetail() {
           </>
         )}
       </Card>
-      <Modal
-        title="Assignee"
-        open={open}
-        onOk={handleAssign}
-        onCancel={() => {
-          setOpen(false);
-          setSelectedUser(null);
-        }}
-        destroyOnClose
-      >
-        <Select
-          options={userOptions}
-          value={selectedUser}
-          onChange={(value) => {
-            setSelectedUser(value);
-          }}
-          className={styles['select']}
-        />
-      </Modal>
+      <AssignUserModal open={open} setOpen={setOpen} />
     </Layout>
   );
 }

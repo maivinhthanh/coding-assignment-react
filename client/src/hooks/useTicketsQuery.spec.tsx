@@ -73,7 +73,6 @@ describe('useTicketsQuery', () => {
     });
 
     await waitFor(() => {
-      console.log(result.current);
       expect(result.current.isLoading).toBe(true);
       expect(result.current.data).toBeUndefined();
       expect(result.current.error).toBeDefined();

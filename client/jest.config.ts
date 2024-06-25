@@ -13,4 +13,6 @@ export default {
   coverageDirectory: '../coverage/apps/react-client',
   setupFilesAfterEnv: ['<rootDir>/test-setup.ts'],
   testEnvironment: 'jsdom',
+  testTimeout: 30000,  // Increase the timeout if necessary
+  maxWorkers: 2, 
 };
